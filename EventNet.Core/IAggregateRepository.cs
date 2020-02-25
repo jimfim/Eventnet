@@ -5,6 +5,6 @@
     {
         TAggregateRoot Get(TAggregateRootId id);
 
-        void Save(TAggregateRoot agg);
+        void Save(TAggregateRoot aggregateRoot);
     }
 }
