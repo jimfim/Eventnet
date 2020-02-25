@@ -11,7 +11,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\EventNet.Eventstore\EventNet.Eventstore.csproj" />
-      <ProjectReference Include="..\Eventnet.Sample.Domain\Eventnet.Sample.Domain.csproj" />
+      <ProjectReference Include="..\EventNet.Sample.Domain\EventNet.Sample.Domain.csproj" />
     </ItemGroup>
 
 </Project>

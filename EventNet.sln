@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventNet.Core", "EventNet.Core\EventNet.Core.csproj", "{1F6D874D-8F01-4E5F-B882-3A8D3ED107C9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Eventnet.Sample.Command", "Eventnet.Sample.Command\Eventnet.Sample.Command.csproj", "{5E84F166-4C2A-4DF1-86E3-C588423BFD32}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventNet.Sample.Command", "EventNet.Sample.Command\EventNet.Sample.Command.csproj", "{5E84F166-4C2A-4DF1-86E3-C588423BFD32}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Eventnet.Sample.Domain", "Eventnet.Sample.Domain\Eventnet.Sample.Domain.csproj", "{D4B73031-038C-4672-BF59-5BBC78F9801D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventNet.Sample.Domain", "EventNet.Sample.Domain\EventNet.Sample.Domain.csproj", "{D4B73031-038C-4672-BF59-5BBC78F9801D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{28CED139-C805-4623-AEB0-FCCA0184FFE5}"
 EndProject

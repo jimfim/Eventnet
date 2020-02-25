@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="$APPLICATION_CONFIG_DIR$/scratches" t="IncludeRecursive" />
+    <e p="$USER_HOME$/.Rider2019.3/system/extResources" t="IncludeRecursive" />
+    <e p="$USER_HOME$/.Rider2019.3/system/resharper-host/local/Transient/ReSharperHost/v193/SolutionCaches/_EventNet.-1593009171.00" t="ExcludeRecursive" />
+    <e p="$PROJECT_DIR$" t="IncludeFlat">
+      <e p="EventNet.Core" t="IncludeRecursive">
+        <e p="EventNet.Core.csproj" t="IncludeRecursive" />
+        <e p="IAggregate.cs" t="Include" />
+        <e p="IAggregateIdentity.cs" t="Include" />
+        <e p="IAggregateRepository.cs" t="Include" />
+        <e p="IDomainEvent.cs" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netstandard2.1" t="Include">
+              <e p="EventNet.Core.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="EventNet.Eventstore" t="IncludeRecursive">
+        <e p="EventNet.Eventstore.csproj" t="IncludeRecursive" />
+        <e p="EventStoreAggregateRepository.cs" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netstandard2.1" t="Include">
+              <e p="EventNet.Eventstore.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="EventNet.Sample.Command" t="IncludeRecursive">
+        <e p="EventNet.Sample.Command.csproj" t="IncludeRecursive" />
+        <e p="Program.cs" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.1" t="Include">
+              <e p="EventNet.Sample.Command.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="EventNet.Sample.Domain" t="IncludeRecursive">
+        <e p="EventNet.Sample.Domain.csproj" t="IncludeRecursive" />
+        <e p="TodoAggregateId.cs" t="Include" />
+        <e p="TodoAggregateRoot.cs" t="Include" />
+        <e p="TodoListCreatedEvent.cs" t="Include" />
+        <e p="TodoTask.cs" t="Include" />
+        <e p="TodoTaskCreatedEvent.cs" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netstandard2.1" t="Include">
+              <e p="EventNet.Sample.Domain.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="EventNet.sln" t="IncludeFlat" />
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="sample" t="Include" />
+      <e p="src" t="Include" />
+    </e>
+  </component>
+</project>
