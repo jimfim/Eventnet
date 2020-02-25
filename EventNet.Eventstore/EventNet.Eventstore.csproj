@@ -8,4 +8,9 @@
     <ProjectReference Include="..\EventNet.Core\EventNet.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="EventStore.Client" Version="5.0.6" />
+    <PackageReference Include="System.Text.Json" Version="4.7.1" />
+  </ItemGroup>
+
 </Project>

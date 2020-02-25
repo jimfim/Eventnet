@@ -1,5 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using EventNet.Core;
+using EventStore.ClientAPI;
 
 namespace EventNet.Eventstore
 {
@@ -7,14 +12,31 @@ namespace EventNet.Eventstore
         where TAggregateRoot : AggregateRoot 
         where TAggregateRootId : IAggregateIdentity
     {
-        public TAggregateRoot Get(TAggregateRootId aggregateIdentity)
+        private readonly IEventStoreConnection _connection;
+
+        internal EventStoreAggregateRepository(IEventStoreConnection connection)
+        {
+            _connection = connection;
+        }
+        public Task SaveAsync(IEnumerable<IAggregateEvent> events)
+        {
+            _connection.AppendToStreamAsync("somestream", ExpectedVersion.Any, events.Select( x => x.ToEventData())).ConfigureAwait(false);
+        }
+
+        public Task<IEnumerable<IAggregateEvent>> GetAsync()
         {
             throw new NotImplementedException();
         }
+    }
 
-        public void Save(TAggregateRoot aggregateRoot)
+    public static class EventStoreExtensions
+    {
+        public static EventData ToEventData(this IAggregateEvent message)
         {
-            throw new NotImplementedException();
+            var data = Encoding.UTF8.GetBytes(System.Text.Json.JsonSerializer.Serialize(message));
+            //var metadata = Encoding.UTF8.GetBytes(System.Text.Json.JsonSerializer.Serialize(headers));
+            var typeName = message.GetType().Name;
+            return new EventData(message.Id, typeName, true, data, null);
         }
     }
 }

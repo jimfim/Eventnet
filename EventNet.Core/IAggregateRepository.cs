@@ -1,10 +1,14 @@
-﻿namespace EventNet.Core
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace EventNet.Core
 {
     public interface IAggregateRepository<TAggregateRoot, TAggregateRootId> where TAggregateRoot : AggregateRoot
         where TAggregateRootId : IAggregateIdentity
     {
-        TAggregateRoot Get(TAggregateRootId id);
+        Task SaveAsync(IEnumerable<IAggregateEvent> events);
 
-        void Save(TAggregateRoot aggregateRoot);
+        Task<IEnumerable<IAggregateEvent>> GetAsync();
+
     }
 }
