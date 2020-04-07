@@ -5,7 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\EventNet.Core\EventNet.Core.csproj" />
+      <ProjectReference Include="..\..\src\EventNet\EventNet.csproj" />
     </ItemGroup>
 
 </Project>

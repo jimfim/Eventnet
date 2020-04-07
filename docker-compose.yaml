@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  eventstore:
+    image : eventstore/eventstore:release-5.0.7
+    environment:
+      EVENTSTORE_RUN_PROJECTIONS: "all"
+      EVENTSTORE_START_STANDARD_PROJECTIONS: "true"
+    ports:
+      - "2113:2113"
+      - "1113:1113"
+    volumes:
+      - ./storage/eventstore/db:/var/lib/eventstore
+      - ./storage/eventstore/log:/var/log/eventstore 
