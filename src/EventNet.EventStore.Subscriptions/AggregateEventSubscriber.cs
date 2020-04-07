@@ -89,6 +89,7 @@ namespace Eventnet.Subscriptions
         private static Assembly[] GetAllAssemblies()
         {
             var assemblies = DependencyContext.Default.RuntimeLibraries
+                .Where(x => x.Name.StartsWith("EventNet"))
                 .Where(lib => lib.RuntimeAssemblyGroups.Any())
                 .Select(l => Assembly.Load(l.Name));
             return assemblies.ToArray();
