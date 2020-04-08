@@ -6,7 +6,6 @@ namespace EventNet.Sample.Domain
 {
     public class TodoAggregateRoot : AggregateRoot
     {
-
         public string Name { get; private set; }
 
         public List<TodoTask> Tasks { get; private set; }
@@ -14,7 +13,11 @@ namespace EventNet.Sample.Domain
         public void Create(Guid id, string name)
         {
             if (Version > 0) throw new InvalidOperationException("Cannot start a list more than once.");
-            var @event = new TodoListCreatedEvent(id, name);
+            var @event = new TodoListCreatedEvent()
+            {
+                Id = id,
+                Name = name
+            };
             Publish(@event);
         }
 
@@ -23,7 +26,11 @@ namespace EventNet.Sample.Domain
             if (id == Guid.Empty) throw new InvalidOperationException("Id cannot be empty");
             if (string.IsNullOrWhiteSpace(text)) throw new InvalidOperationException("Description cannot be empty");
 
-            var @event = new TodoTaskCreatedEvent(id, text);
+            var @event = new TodoTaskCreatedEvent()
+            {
+                Id = id,
+                Description = text
+            };
             Publish(@event);
         }
 

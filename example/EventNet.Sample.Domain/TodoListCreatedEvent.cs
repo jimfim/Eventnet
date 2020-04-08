@@ -5,13 +5,7 @@ namespace EventNet.Sample.Domain
 {
     public class TodoListCreatedEvent : IAggregateEvent
     {
-        public TodoListCreatedEvent(Guid aggregateId, string name)
-        {
-            Id = aggregateId;
-            Name = name;
-        }
-        
-        public string Name { get; }
+        public string Name { get; set; }
         public Guid Id { get; set; }
     }
 }

@@ -11,7 +11,6 @@ namespace EventNet.EventStore
         where TAggregate : AggregateRoot
     {
         private readonly IEventStoreConnection _connection;
-        private List<object> _uncommittedEvents = new List<object>();
         private readonly IAggregateFactory _factory = new AggregateFactory();
         public EventStoreAggregateRepository(IEventStoreConnection connection)
         {

@@ -3,17 +3,15 @@ using System.Collections.Generic;
 using System.Text;
 using EventNet.Core;
 using EventStore.ClientAPI;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
 
 namespace EventNet.EventStore
 {
     public static class EventStoreExtensions
     {
-        private static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.None };
         public static EventData ToEventData(this IAggregateEvent message, IDictionary<string, object> headers)
         {
-            var data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message, SerializerSettings));
+            var data = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(message));
 
             var eventHeaders = new Dictionary<string, object>(headers)
             {
@@ -22,7 +20,7 @@ namespace EventNet.EventStore
                 }
             };
             
-            var metadata = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(eventHeaders, SerializerSettings));
+            var metadata = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(eventHeaders));
             var typeName = message.GetType().Name;
             var eventId = Guid.NewGuid();
             return new EventData(eventId, typeName, true, data, metadata);
@@ -35,8 +33,11 @@ namespace EventNet.EventStore
         
         public static object DeserializeEvent(this ResolvedEvent @event)
         {
-            var eventClrTypeName = JObject.Parse(Encoding.UTF8.GetString(@event.OriginalEvent.Metadata)).Property(EventMetaDataKeys.EventClrType).Value;
-            return JsonConvert.DeserializeObject(Encoding.UTF8.GetString(@event.OriginalEvent.Data), Type.GetType((string)eventClrTypeName));
+            var metaData = JsonSerializer.Deserialize<Dictionary<string, object>>(Encoding.UTF8.GetString(@event.OriginalEvent.Metadata));
+            var clrType = metaData[EventMetaDataKeys.EventClrType].ToString();
+            var data = Encoding.UTF8.GetString(@event.OriginalEvent.Data);
+            return JsonSerializer.Deserialize(data,Type.GetType(clrType));;
+
         }
     }
 }
