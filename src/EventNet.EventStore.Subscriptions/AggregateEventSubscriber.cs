@@ -14,7 +14,7 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Eventnet.Subscriptions
+namespace EventNet.EventStore.Subscriptions
 {
     public class AggregateEventSubscriber<T>: IHostedService
     {

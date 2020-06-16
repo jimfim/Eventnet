@@ -1,5 +1,5 @@
-﻿using EventNet.Sample.Domain;
-using Eventnet.Subscriptions;
+﻿using EventNet.EventStore.Subscriptions;
+using EventNet.Sample.Domain;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -16,8 +16,7 @@ namespace EventNet.Sample.ReadModelSubscriber
             return Host.CreateDefaultBuilder(args)
                 .ConfigureServices(services =>
                 {
-                    //services.AddTransient<>()
-                    services.AddHostedService<AggregateEventSubscriber<TodoAggregateRoot>>();
+                    services.AddHostedService<EventNet.EventStore.Subscriptions.AggregateEventSubscriber<TodoAggregateRoot>>();
                 });
         }
     }

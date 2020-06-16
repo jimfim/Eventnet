@@ -31,36 +31,13 @@ namespace EventNet.Core
             }
         }
 
-        private static Dictionary<Type, MethodInfo> GetEventMethod(Type type)
+        private static Dictionary<Type, MethodInfo> GetEventMethod(IReflect type)
         {
             return type
                 .GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
                 .Where(m => m.Name == "When")
                 .Where(m => m.GetParameters().Length == 1)
                 .ToDictionary(m => m.GetParameters().First().ParameterType, m => m);
-        }
-
-        //[DebuggerNonUserCode]
-        public static void InvokeCommand<T>(T instance, object command)
-        {
-            var type = command.GetType();
-            var eventMethod = GetEventMethod(instance.GetType());
-            if (!eventMethod.TryGetValue(type, out var info))
-            {
-                var s = string.Format("Failed to locate {0}.When({1})", typeof(T).Name, type.Name);
-                throw new InvalidOperationException(s);
-            }
-
-            try
-            {
-                info.Invoke(instance, new[] {command});
-            }
-            catch (TargetInvocationException ex)
-            {
-                if (null != InternalPreserveStackTraceMethod)
-                    InternalPreserveStackTraceMethod.Invoke(ex.InnerException, new object[0]);
-                throw ex.InnerException;
-            }
         }
     }
 }

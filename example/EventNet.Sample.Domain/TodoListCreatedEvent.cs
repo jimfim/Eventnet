@@ -12,6 +12,7 @@ namespace EventNet.Sample.Domain
         }
         
         public string Name { get; }
+        
         public Guid Id { get; set; }
     }
 }

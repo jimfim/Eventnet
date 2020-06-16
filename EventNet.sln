@@ -7,15 +7,29 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventNet", "src\EventNet\Ev
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventNet.EventStore", "src\EventNet.EventStore\EventNet.EventStore.csproj", "{16F42230-5F8D-4646-9A2B-4A89031E9677}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventNet.Sample.Command", "example\EventNet.Sample.Command\EventNet.Sample.Command.csproj", "{9BB823A1-34A2-4400-84FE-EF67D3DBA651}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventNet.Sample.EventStore.Command", "example\EventNet.Sample.EventStore.Command\EventNet.Sample.EventStore.Command.csproj", "{9BB823A1-34A2-4400-84FE-EF67D3DBA651}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventNet.Sample.Domain", "example\EventNet.Sample.Domain\EventNet.Sample.Domain.csproj", "{7A01CAD6-10F4-40F7-8837-A0A3754CA3EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventNet.Sample.ReadModel.Subscriber", "example\EventNet.Sample.ReadModel.Subscriber\EventNet.Sample.ReadModel.Subscriber.csproj", "{0BC59D8E-A658-4ED0-85BB-70ECB748B912}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventNet.Sample.EventStore.Subscriber", "example\EventNet.Sample.EventStore.Subscriber\EventNet.Sample.EventStore.Subscriber.csproj", "{0BC59D8E-A658-4ED0-85BB-70ECB748B912}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eventnet.EventStore.Subscriptions", "src\EventNet.EventStore.Subscriptions\Eventnet.EventStore.Subscriptions.csproj", "{1FDBDA9F-0D6E-4DAC-89D6-25CEF84B3F2F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventNet.EventStore.Subscriptions", "src\EventNet.EventStore.Subscriptions\EventNet.EventStore.Subscriptions.csproj", "{1FDBDA9F-0D6E-4DAC-89D6-25CEF84B3F2F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventNet.Sample.ReadModel.EventsHandlers", "example\EventNet.Sample.ReadModel.EventsHandlers\EventNet.Sample.ReadModel.EventsHandlers.csproj", "{C1E45B02-8586-4F51-BD76-C74126C94401}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{A843FC6D-11C8-4413-8AE8-759E89B32E3E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventNet.Redis", "EventNet.Redis\EventNet.Redis.csproj", "{CAC17375-8178-418E-8436-FFA949283D20}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventNet.Redis.Subscriptions", "EventNet.Redis.Subscriptions\EventNet.Redis.Subscriptions.csproj", "{D1BD1A78-C2F5-4C84-94B0-9DB365D313B4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EventStore", "EventStore", "{2FE6824E-424D-4870-ADA3-D68C14107F7B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Redis", "Redis", "{A34C83D5-498E-447B-94F3-1E0E6D554740}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventNet.Sample.Redis.Subscriber", "EventNet.Sample.Redis.Subscriber\EventNet.Sample.Redis.Subscriber.csproj", "{E555870A-D06D-4F8D-AE8A-0FC3A26FB899}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventNet.Sample.Redis.Command", "EventNet.Sample.Redis.Command\EventNet.Sample.Redis.Command.csproj", "{5D6E874E-E13B-4976-BB60-C1164B014CEC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,11 +65,35 @@ Global
 		{C1E45B02-8586-4F51-BD76-C74126C94401}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1E45B02-8586-4F51-BD76-C74126C94401}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1E45B02-8586-4F51-BD76-C74126C94401}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CAC17375-8178-418E-8436-FFA949283D20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAC17375-8178-418E-8436-FFA949283D20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAC17375-8178-418E-8436-FFA949283D20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAC17375-8178-418E-8436-FFA949283D20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1BD1A78-C2F5-4C84-94B0-9DB365D313B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1BD1A78-C2F5-4C84-94B0-9DB365D313B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1BD1A78-C2F5-4C84-94B0-9DB365D313B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1BD1A78-C2F5-4C84-94B0-9DB365D313B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E555870A-D06D-4F8D-AE8A-0FC3A26FB899}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E555870A-D06D-4F8D-AE8A-0FC3A26FB899}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E555870A-D06D-4F8D-AE8A-0FC3A26FB899}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E555870A-D06D-4F8D-AE8A-0FC3A26FB899}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D6E874E-E13B-4976-BB60-C1164B014CEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D6E874E-E13B-4976-BB60-C1164B014CEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D6E874E-E13B-4976-BB60-C1164B014CEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D6E874E-E13B-4976-BB60-C1164B014CEC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{2FE6824E-424D-4870-ADA3-D68C14107F7B} = {A843FC6D-11C8-4413-8AE8-759E89B32E3E}
+		{A34C83D5-498E-447B-94F3-1E0E6D554740} = {A843FC6D-11C8-4413-8AE8-759E89B32E3E}
+		{7A01CAD6-10F4-40F7-8837-A0A3754CA3EA} = {A843FC6D-11C8-4413-8AE8-759E89B32E3E}
+		{C1E45B02-8586-4F51-BD76-C74126C94401} = {A843FC6D-11C8-4413-8AE8-759E89B32E3E}
+		{9BB823A1-34A2-4400-84FE-EF67D3DBA651} = {2FE6824E-424D-4870-ADA3-D68C14107F7B}
+		{0BC59D8E-A658-4ED0-85BB-70ECB748B912} = {2FE6824E-424D-4870-ADA3-D68C14107F7B}
+		{E555870A-D06D-4F8D-AE8A-0FC3A26FB899} = {A34C83D5-498E-447B-94F3-1E0E6D554740}
+		{5D6E874E-E13B-4976-BB60-C1164B014CEC} = {A34C83D5-498E-447B-94F3-1E0E6D554740}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28C992AB-23DA-45B9-BB2A-24BA7E5BA38F}

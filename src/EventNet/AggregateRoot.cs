@@ -10,7 +10,7 @@ namespace EventNet.Core
 
         public int Version => _version;
 
-        public Guid AggregateId { get; set; }
+        public Guid AggregateId { get; protected set; }
 
         public List<IAggregateEvent> UncommittedEvents => _uncommittedEvents;
         

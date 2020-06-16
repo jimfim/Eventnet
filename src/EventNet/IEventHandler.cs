@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 
 namespace EventNet.Core
 {
-    public interface IEventHandler<T>
+    public interface IEventHandler<in T>
     {
         public void  HandleAsync(T @event);
     }

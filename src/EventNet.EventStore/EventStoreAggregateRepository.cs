@@ -11,7 +11,6 @@ namespace EventNet.EventStore
         where TAggregate : AggregateRoot
     {
         private readonly IEventStoreConnection _connection;
-        private List<object> _uncommittedEvents = new List<object>();
         private readonly IAggregateFactory _factory = new AggregateFactory();
         public EventStoreAggregateRepository(IEventStoreConnection connection)
         {
@@ -46,10 +45,11 @@ namespace EventNet.EventStore
             StreamEventsSlice currentSlice;
             long nextSliceStart = StreamPosition.Start;
             var streamName = EventStoreExtensions.GetStreamName<TAggregate>(id);
+            int batchSize = 100;
             do
             {
                 currentSlice = await _connection
-                    .ReadStreamEventsForwardAsync(streamName, nextSliceStart, 200, false);
+                    .ReadStreamEventsForwardAsync(streamName, nextSliceStart, batchSize, false);
                 nextSliceStart = currentSlice.NextEventNumber;
                 events.AddRange(currentSlice.Events.Select(x => (IAggregateEvent)x.DeserializeEvent()));
             } while (!currentSlice.IsEndOfStream);

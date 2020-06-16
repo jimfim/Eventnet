@@ -1,14 +1,14 @@
-﻿using EventNet.Sample.Domain;
-using System;
+﻿using System;
 using System.Net;
 using System.Threading.Tasks;
 using EventNet.Core;
 using EventNet.EventStore;
+using EventNet.Sample.Domain;
 using EventStore.ClientAPI;
 using EventStore.ClientAPI.SystemData;
 using Newtonsoft.Json;
 
-namespace Eventnet.Sample.Command
+namespace EventNet.Sample.EventStore.Command
 {
     class Program
     {

@@ -38,5 +38,7 @@ namespace EventNet.EventStore
             var eventClrTypeName = JObject.Parse(Encoding.UTF8.GetString(@event.OriginalEvent.Metadata)).Property(EventMetaDataKeys.EventClrType).Value;
             return JsonConvert.DeserializeObject(Encoding.UTF8.GetString(@event.OriginalEvent.Data), Type.GetType((string)eventClrTypeName));
         }
+
+
     }
 }
