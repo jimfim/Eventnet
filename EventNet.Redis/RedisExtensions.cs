@@ -7,9 +7,14 @@ namespace EventNet.Redis
     {
         private static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.None };
         
-        public static string GetStreamName<TEntity>(Guid id)
+        public static string GetStreamName<TEntity>()
         {
             return $"{typeof(TEntity)}";
+        }
+        
+        public static string GetAggregateStreamName<TEntity>(Guid id)
+        {
+            return $"{typeof(TEntity)}-{id}";
         }
         
         internal static string ToJson(this object input)

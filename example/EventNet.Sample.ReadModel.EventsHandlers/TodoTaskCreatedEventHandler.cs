@@ -9,7 +9,7 @@ namespace EventNet.Sample.ReadModel.EventsHandlers
     {
         public async void HandleAsync(TodoTaskCreatedEvent @event)
         {
-            Console.Write($"event received : {@event.Description}");
+            Console.WriteLine($"event received : {@event.Id} {@event.Description}");
             await Task.CompletedTask;
         }
     }

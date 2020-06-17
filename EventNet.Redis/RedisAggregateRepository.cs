@@ -13,6 +13,7 @@ namespace EventNet.Redis
     {
         private readonly IConnectionMultiplexer _connectionMultiplexer;
         private readonly IAggregateFactory _factory = new AggregateFactory();
+        
         public RedisAggregateRepository(IConnectionMultiplexer connectionMultiplexer)
         {
             _connectionMultiplexer = connectionMultiplexer;
@@ -26,7 +27,7 @@ namespace EventNet.Redis
                 return;
             }
             
-            var streamName = RedisExtensions.GetStreamName<TAggregate>(aggregate.AggregateId);
+            var streamName = RedisExtensions.GetStreamName<TAggregate>();
             foreach (var @event in events)
             {
                 await db.StreamAddAsync(streamName, aggregate.AggregateId.ToString(), @event.ToJson());    
@@ -37,17 +38,17 @@ namespace EventNet.Redis
 
         public async Task<TAggregate> GetAsync(Guid id)
         {
-            var streamName = RedisExtensions.GetStreamName<TAggregate>(id);
+            var streamName = RedisExtensions.GetStreamName<TAggregate>();
             var db = _connectionMultiplexer.GetDatabase();
 
             var events = new List<IAggregateEvent>();
             long nextSliceStart = 0;
             int batchSize = 100;
-            StreamEntry[] currentSlice;
             var info = db.StreamInfo(streamName);
+            
             do
             {
-                currentSlice = await db.StreamReadAsync(streamName, nextSliceStart, batchSize);
+                var currentSlice = await db.StreamReadAsync(streamName, nextSliceStart, batchSize);
                 nextSliceStart +=batchSize;
                 foreach (var streamEntry in currentSlice)
                 {
@@ -62,7 +63,6 @@ namespace EventNet.Redis
                         }
                     }
                 }
-                //events.AddRange(currentSlice.Select(x => x.Values));
             } while (nextSliceStart < info.Length);
             var aggregate = _factory.Create<TAggregate>(events);
             return aggregate;

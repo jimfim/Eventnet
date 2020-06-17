@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using EventNet.Core;
@@ -17,33 +17,49 @@ namespace EventNet.Redis.Subscriptions
     {
         private readonly IConnectionMultiplexer _connectionMultiplexer;
         private readonly IServiceProvider _provider;
-
-        public AggregateEventSubscriber(IConnectionMultiplexer connectionMultiplexer,IServiceProvider provider)
+        private readonly JsonSerializerSettings _serializerSettings = new JsonSerializerSettings()
+        {
+            TypeNameHandling = TypeNameHandling.All
+        };
+        
+        public AggregateEventSubscriber(IConnectionMultiplexer connectionMultiplexer, IServiceProvider provider)
         {
             _connectionMultiplexer = connectionMultiplexer;
             _provider = provider;
         }
+
         public async Task StartAsync(CancellationToken cancellationToken)
         {
+            var streamName = RedisExtensions.GetStreamName<T>();
             var db = _connectionMultiplexer.GetDatabase();
-            RedisValue position = 0;
-            var stream = $"{typeof(T).FullName}";
+            string nextSliceStart = "0-0";
+            int batchSize = 10;
             while (true)
             {
+                var info = await db.StreamInfoAsync(streamName);
                 if (cancellationToken.IsCancellationRequested)
                 {
                     break;
                 }
-                var result = db.StreamRead(stream, position, 1);
-                position = result[0].Id;
-                Console.WriteLine(result[0].Values[0]);
-                var @event = (IAggregateEvent)JsonConvert.DeserializeObject(result[0].Values[0].Value, new JsonSerializerSettings()
+
+                if (nextSliceStart == info.LastEntry.Id)
                 {
-                    TypeNameHandling = TypeNameHandling.All
-                });
-                await DispatchAsync(@event);
+                    continue;
+                }
+                
+                var currentSlice =  await db.StreamReadAsync(streamName, nextSliceStart, batchSize);
+                foreach (var streamEntry in currentSlice)
+                {
+                    foreach (var streamEntryValue in streamEntry.Values)
+                    {
+                        var @event = JsonConvert.DeserializeObject<IAggregateEvent>(streamEntryValue.Value.ToString(), _serializerSettings);
+                        await DispatchAsync(@event);
+                        nextSliceStart  = streamEntry.Id;        
+                    }
+                }
             }
         }
+        
         
         public async Task DispatchAsync<TEvent>(TEvent @event) where TEvent : IAggregateEvent
         {

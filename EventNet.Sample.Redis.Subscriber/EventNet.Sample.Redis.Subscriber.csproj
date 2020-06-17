@@ -14,6 +14,7 @@
     <ItemGroup>
       <ProjectReference Include="..\EventNet.Redis.Subscriptions\EventNet.Redis.Subscriptions.csproj" />
       <ProjectReference Include="..\example\EventNet.Sample.Domain\EventNet.Sample.Domain.csproj" />
+      <ProjectReference Include="..\example\EventNet.Sample.ReadModel.EventsHandlers\EventNet.Sample.ReadModel.EventsHandlers.csproj" />
     </ItemGroup>
 
 </Project>

@@ -12,6 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\EventNet.Redis\EventNet.Redis.csproj" />
       <ProjectReference Include="..\src\EventNet\EventNet.csproj" />
     </ItemGroup>
 
