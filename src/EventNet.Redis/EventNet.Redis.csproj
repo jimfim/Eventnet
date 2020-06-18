@@ -1,17 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <OutputType>Exe</OutputType>
         <TargetFramework>netcoreapp3.1</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\EventNet.Redis\EventNet.Redis.csproj" />
-      <ProjectReference Include="..\example\EventNet.Sample.Domain\EventNet.Sample.Domain.csproj" />
-      <ProjectReference Include="..\src\EventNet\EventNet.csproj" />
+      <ProjectReference Include="..\EventNet\EventNet.csproj" />
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
       <PackageReference Include="StackExchange.Redis" Version="2.1.55" />
     </ItemGroup>
 

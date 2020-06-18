@@ -13,7 +13,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\EventNet.Redis\EventNet.Redis.csproj" />
-      <ProjectReference Include="..\src\EventNet\EventNet.csproj" />
+      <ProjectReference Include="..\EventNet\EventNet.csproj" />
     </ItemGroup>
 
 </Project>

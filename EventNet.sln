@@ -19,17 +19,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventNet.Sample.ReadModel.E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{A843FC6D-11C8-4413-8AE8-759E89B32E3E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventNet.Redis", "EventNet.Redis\EventNet.Redis.csproj", "{CAC17375-8178-418E-8436-FFA949283D20}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventNet.Redis", "src\EventNet.Redis\EventNet.Redis.csproj", "{CAC17375-8178-418E-8436-FFA949283D20}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventNet.Redis.Subscriptions", "EventNet.Redis.Subscriptions\EventNet.Redis.Subscriptions.csproj", "{D1BD1A78-C2F5-4C84-94B0-9DB365D313B4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventNet.Redis.Subscriptions", "src\EventNet.Redis.Subscriptions\EventNet.Redis.Subscriptions.csproj", "{D1BD1A78-C2F5-4C84-94B0-9DB365D313B4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EventStore", "EventStore", "{2FE6824E-424D-4870-ADA3-D68C14107F7B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Redis", "Redis", "{A34C83D5-498E-447B-94F3-1E0E6D554740}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventNet.Sample.Redis.Subscriber", "EventNet.Sample.Redis.Subscriber\EventNet.Sample.Redis.Subscriber.csproj", "{E555870A-D06D-4F8D-AE8A-0FC3A26FB899}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventNet.Sample.Redis.Subscriber", "example\EventNet.Sample.Redis.Subscriber\EventNet.Sample.Redis.Subscriber.csproj", "{E555870A-D06D-4F8D-AE8A-0FC3A26FB899}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventNet.Sample.Redis.Command", "EventNet.Sample.Redis.Command\EventNet.Sample.Redis.Command.csproj", "{5D6E874E-E13B-4976-BB60-C1164B014CEC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventNet.Sample.Redis.Command", "example\EventNet.Sample.Redis.Command\EventNet.Sample.Redis.Command.csproj", "{5D6E874E-E13B-4976-BB60-C1164B014CEC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
