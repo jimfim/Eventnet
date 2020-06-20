@@ -1,4 +1,6 @@
-﻿using EventNet.Sample.Domain;
+﻿using EventNet.Core;
+using EventNet.Redis;
+using EventNet.Sample.Domain;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using StackExchange.Redis;
@@ -18,6 +20,7 @@ namespace EventNet.Sample.Redis.Subscriber
                 .ConfigureServices(services =>
                 {
                     services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect("localhost"));
+                    services.AddSingleton<ICheckPoint,RedisAggregateCheckpoint>();
                     services.AddHostedService<EventNet.Redis.Subscriptions.AggregateEventSubscriber<TodoAggregateRoot>>();
                 });
         }

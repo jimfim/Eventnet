@@ -16,20 +16,26 @@ namespace EventNet.Sample.Redis.Command
             var eventStoreAggregateRepository = new RedisAggregateRepository<TodoAggregateRoot>(redis);
             IAggregateFactory factory = new AggregateFactory();
 
-            var aggregateId = Guid.NewGuid();
-            var agg = factory.Create<TodoAggregateRoot>(aggregateId);
+            while(true)
+            {
+                Console.WriteLine("Press enter to create stuff");
+                Console.ReadLine();
+                var aggregateId = Guid.NewGuid();
+                var agg = factory.Create<TodoAggregateRoot>(aggregateId);
 
-            agg.Create(aggregateId, "My List");
+                agg.Create(aggregateId, "My List");
 
-            agg.AddTask(Guid.NewGuid(), "get 1 egg");
-            agg.AddTask(Guid.NewGuid(), "get milk");
-            agg.AddTask(Guid.NewGuid(), "dry clothes");
-            agg.AddTask(Guid.NewGuid(), "solve world hunger");
+                agg.AddTask(Guid.NewGuid(), "get 1 egg");
+                agg.AddTask(Guid.NewGuid(), "get milk");
+                agg.AddTask(Guid.NewGuid(), "dry clothes");
+                agg.AddTask(Guid.NewGuid(), "solve world hunger");
 
-            await eventStoreAggregateRepository.SaveAsync(agg);
+                await eventStoreAggregateRepository.SaveAsync(agg);
 
-            var aggregate = await eventStoreAggregateRepository.GetAsync(agg.AggregateId);
-            Console.WriteLine(JsonConvert.SerializeObject(aggregate, Formatting.Indented));
+                var aggregate = await eventStoreAggregateRepository.GetAsync(agg.AggregateId);
+                Console.WriteLine(JsonConvert.SerializeObject(aggregate, Formatting.Indented));
+            }
+
         }
     }
 }

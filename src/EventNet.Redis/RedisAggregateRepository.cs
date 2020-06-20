@@ -30,13 +30,17 @@ namespace EventNet.Redis
             {
                 return;
             }
-            
-            var streamName = RedisExtensions.GetAggregateStreamName<TAggregate>(aggregate.AggregateId);
+
+            var primaryStream = RedisExtensions.GetPrimaryStreamName();
+            var aggregateStreamName = RedisExtensions.GetAggregateStreamName<TAggregate>(aggregate.AggregateId);
             foreach (var @event in events)
             {
-                await db.StreamAddAsync(streamName, aggregate.AggregateId.ToString(), @event.ToJson());    
+                var messageId = await db.StringIncrementAsync(RedisExtensions.GetStreamIdKey());
+                var data = @event.ToJson();
+                var primaryStreamTask = db.StreamAddAsync(primaryStream, aggregate.AggregateId.ToString(), data, $"{messageId.ToString()}-0");
+                var aggregateStreamTask = db.StreamAddAsync(aggregateStreamName, aggregate.AggregateId.ToString(), data, $"{messageId.ToString()}-0");
+                await Task.WhenAll(new List<Task>() {primaryStreamTask, aggregateStreamTask});
             }
-            
             aggregate.ClearUncommittedEvents();
         }
 
@@ -44,7 +48,6 @@ namespace EventNet.Redis
         {
             var streamName = RedisExtensions.GetAggregateStreamName<TAggregate>(id);
             var db = _connectionMultiplexer.GetDatabase();
-
             var events = new List<IAggregateEvent>();
             string checkpoint = "0-0";
             int batchSize = 100;

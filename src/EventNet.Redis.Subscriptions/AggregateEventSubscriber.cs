@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Metadata.Ecma335;
 using System.Threading;
 using System.Threading.Tasks;
 using EventNet.Core;
@@ -13,66 +13,61 @@ using StackExchange.Redis;
 
 namespace EventNet.Redis.Subscriptions
 {
-    public class AggregateEventSubscriber<T>: IHostedService
+    public class AggregateEventSubscriber<T> : IHostedService
     {
+        private readonly ICheckPoint _checkPoint;
         private readonly IConnectionMultiplexer _connectionMultiplexer;
         private readonly IServiceProvider _provider;
-        private readonly JsonSerializerSettings _serializerSettings = new JsonSerializerSettings()
+
+        private readonly JsonSerializerSettings _serializerSettings = new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.All
         };
-        
-        public AggregateEventSubscriber(IConnectionMultiplexer connectionMultiplexer, IServiceProvider provider)
+
+        public AggregateEventSubscriber(IConnectionMultiplexer connectionMultiplexer, IServiceProvider provider,
+            ICheckPoint checkPoint)
         {
             _connectionMultiplexer = connectionMultiplexer;
             _provider = provider;
+            _checkPoint = checkPoint;
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            var streamName = RedisExtensions.GetStreamName<T>();
+            var streamName = RedisExtensions.GetPrimaryStreamName();
             var db = _connectionMultiplexer.GetDatabase();
+            var batchSize = 100;
 
-            
-            string nextSliceStart = "0-0";
-            int batchSize = 100;
-            var streams = new List<string>();
             while (true)
             {
                 if (cancellationToken.IsCancellationRequested)
                 {
                     break;
                 }
-                
-                var endpoints = _connectionMultiplexer.GetEndPoints();
-                foreach (var endpoint in endpoints)
+                var checkpoint = await _checkPoint.GetCheckpoint<T>();
+                var streamInfo = db.StreamInfo(streamName);
+                if (streamInfo.LastEntry.Id == checkpoint)
                 {
-                    var server = _connectionMultiplexer.GetServer(endpoint);
-                    var keys = server.KeysAsync();
-                    var asyncEnumerator = keys.GetAsyncEnumerator(cancellationToken);
-                    while (await asyncEnumerator.MoveNextAsync())
-                    {
-                        if (asyncEnumerator.Current.ToString().Contains(streamName))
-                        {
-                            streams.Add(asyncEnumerator.Current.ToString());
-                        }
-                    }
+                    continue;
                 }
                 
-                var currentSlice = await db.StreamReadAsync(streams.Select(s => new StreamPosition(s, nextSliceStart)).ToArray(),batchSize);
+                var currentSlice = await db.StreamReadAsync(streamName, checkpoint, batchSize);
+                
                 foreach (var streamEntry in currentSlice)
                 {
-                    foreach (var entry in streamEntry.Entries)
+                    foreach (var streamEntryValue in streamEntry.Values)
                     {
-                        foreach (var streamEntryValue in entry.Values)
-                        {
-                            var @event = JsonConvert.DeserializeObject<IAggregateEvent>(streamEntryValue.Value.ToString(), _serializerSettings);
-                            await DispatchAsync(@event);
-                            nextSliceStart  = entry.Id;        
-                        }
+                        var @event = JsonConvert.DeserializeObject<IAggregateEvent>(streamEntryValue.Value.ToString(), _serializerSettings);
+                        await DispatchAsync(@event);
+                        await _checkPoint.SetCheckpoint<T>(streamEntry.Id);
                     }
                 }
             }
+        }
+
+        public async Task StopAsync(CancellationToken cancellationToken)
+        {
+            await _connectionMultiplexer.CloseAsync();
         }
 
 
@@ -92,13 +87,9 @@ namespace EventNet.Redis.Subscriptions
 
         private async Task HandlerRunnerAsync<TEvent>(object handler, TEvent @event) where TEvent : IAggregateEvent
         {
-            handler.GetType().InvokeMember("HandleAsync", BindingFlags.InvokeMethod, null, handler,new object[] {@event});
+            handler.GetType().InvokeMember("HandleAsync", BindingFlags.InvokeMethod, null, handler,
+                new object[] {@event});
             await Task.CompletedTask;
-        }
-        
-        public async Task StopAsync(CancellationToken cancellationToken)
-        {
-            await _connectionMultiplexer.CloseAsync();
         }
 
         private static Assembly[] GetAllAssemblies()
