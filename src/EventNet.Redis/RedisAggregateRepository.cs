@@ -35,13 +35,14 @@ namespace EventNet.Redis
             var aggregateStreamName = RedisExtensions.GetAggregateStreamName<TAggregate>(aggregate.AggregateId);
             foreach (var @event in events)
             {
-                var messageId = await db.StringIncrementAsync(RedisExtensions.GetStreamIdKey());
+                var key = await db.StringIncrementAsync(RedisExtensions.GetStreamIdKey());
+                var messageId = $"{key}-0";
                 var data = @event.ToJson();
-                var primaryStreamTask = db.StreamAddAsync(primaryStream, aggregate.AggregateId.ToString(), data, $"{messageId.ToString()}-0");
-                var aggregateStreamTask = db.StreamAddAsync(aggregateStreamName, aggregate.AggregateId.ToString(), data, $"{messageId.ToString()}-0");
+                var primaryStreamTask = db.StreamAddAsync(primaryStream, aggregate.AggregateId.ToString(), data, messageId);
+                var aggregateStreamTask = db.StreamAddAsync(aggregateStreamName, aggregate.AggregateId.ToString(), data, messageId);
                 await Task.WhenAll(new List<Task>() {primaryStreamTask, aggregateStreamTask});
             }
-            aggregate.ClearUncommittedEvents();
+            aggregate.MarkEventsCompleted();
         }
 
         public async Task<TAggregate> GetAsync(Guid id)

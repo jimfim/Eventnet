@@ -38,7 +38,7 @@ namespace EventNet.Core
             RedirectToWhen.InvokeEventOptional(this, e);
         }
 
-        public void ClearUncommittedEvents()
+        public void MarkEventsCompleted()
         {
             _uncommittedEvents.Clear();
         }

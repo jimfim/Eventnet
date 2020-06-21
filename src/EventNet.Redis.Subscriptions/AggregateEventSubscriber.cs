@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Metadata.Ecma335;
@@ -18,6 +19,7 @@ namespace EventNet.Redis.Subscriptions
         private readonly ICheckPoint _checkPoint;
         private readonly IConnectionMultiplexer _connectionMultiplexer;
         private readonly IServiceProvider _provider;
+        private Dictionary<string,IEnumerable<object>> _handlers;
 
         private readonly JsonSerializerSettings _serializerSettings = new JsonSerializerSettings
         {
@@ -30,13 +32,14 @@ namespace EventNet.Redis.Subscriptions
             _connectionMultiplexer = connectionMultiplexer;
             _provider = provider;
             _checkPoint = checkPoint;
+            _handlers = new Dictionary<string, IEnumerable<object>>();
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             var streamName = RedisExtensions.GetPrimaryStreamName();
             var db = _connectionMultiplexer.GetDatabase();
-            var batchSize = 100;
+            var batchSize = 1000;
 
             while (true)
             {
@@ -73,13 +76,17 @@ namespace EventNet.Redis.Subscriptions
 
         private async Task DispatchAsync<TEvent>(TEvent @event) where TEvent : IAggregateEvent
         {
-            var handlers = GetAllAssemblies()
-                .SelectMany(a => a.GetTypes())
-                .Where(t => !t.IsInterface && !t.IsAbstract && t.GetInterfaces()
-                    .Contains(typeof(IEventHandler<>).MakeGenericType(@event.GetType())))
-                .Select(x => ActivatorUtilities.CreateInstance(_provider, x));
-
-            foreach (var handler in handlers)
+            if (!_handlers.ContainsKey(@event.GetType().ToString()))
+            {
+                var handlers = GetAllAssemblies()
+                    .SelectMany(a => a.GetTypes())
+                    .Where(t => !t.IsInterface && !t.IsAbstract && t.GetInterfaces()
+                        .Contains(typeof(IEventHandler<>).MakeGenericType(@event.GetType())))
+                    .Select(x => ActivatorUtilities.CreateInstance(_provider, x));
+                _handlers.Add(@event.GetType().ToString(), handlers);
+            }
+            
+            foreach (var handler in _handlers[@event.GetType().ToString()])
             {
                 await HandlerRunnerAsync(handler, @event);
             }

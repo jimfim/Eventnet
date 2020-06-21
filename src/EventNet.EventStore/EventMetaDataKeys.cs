@@ -1,6 +1,6 @@
-namespace EventNet.Core
+namespace EventNet.EventStore
 {
-    public class EventMetaDataKeys
+    public static class EventMetaDataKeys
     {
         public static readonly string EventClrType = "EventClrType";
     }

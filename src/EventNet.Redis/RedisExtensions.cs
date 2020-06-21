@@ -9,22 +9,22 @@ namespace EventNet.Redis
         
         public static string GetStreamIdKey()
         {
-            return $"{Constants.NameSpace}-{Constants.PrimaryStream}-{Constants.MessageIdKey}";
+            return $"{Constants.NameSpace}{Constants.Delimiter}{Constants.PrimaryStream}{Constants.Delimiter}{Constants.MessageIdKey}";
         }
         
         public static string GetPrimaryStreamName()
         {
-            return $"{Constants.NameSpace}-{Constants.PrimaryStream}";
+            return $"{Constants.NameSpace}{Constants.Delimiter}{Constants.PrimaryStream}";
         }
         
         public static string GetAggregateStreamCheckpoint<TEntity>()
         {
-            return $"{Constants.NameSpace}-{typeof(TEntity)}-{Constants.CheckPoint}";
+            return $"{Constants.NameSpace}{Constants.Delimiter}{typeof(TEntity)}-{Constants.CheckPoint}";
         }
 
         public static string GetAggregateStreamName<TEntity>(Guid id)
         {
-            return $"{Constants.NameSpace}-{typeof(TEntity)}-{id}";
+            return $"{Constants.NameSpace}{Constants.Delimiter}{typeof(TEntity)}{Constants.Delimiter}{id}";
         }
         
         internal static string ToJson(this object input)
@@ -34,13 +34,5 @@ namespace EventNet.Redis
                 TypeNameHandling = TypeNameHandling.All
             });
         }
-    }
-
-    public static class Constants
-    {
-        public static string NameSpace = "EventNet";
-        public static string PrimaryStream = "Primary";
-        public static string CheckPoint = "CheckPoint";
-        public static string MessageIdKey = "MessageId";
     }
 }
