@@ -57,11 +57,11 @@ namespace EventNet.EventStore.Subscriptions
             var metadata = JObject.Parse(Encoding.UTF8.GetString(resolvedEvent.Event.Metadata));
             var eventType = metadata.Property(EventMetaDataKeys.EventClrType).Value.ToString();
             var type = Type.GetType(eventType, AssemblyResolver, null);
-            var response = (IAggregateEvent) JsonConvert.DeserializeObject(data, type);
+            var response = (AggregateEvent) JsonConvert.DeserializeObject(data, type);
             await DispatchAsync(response);
         }
         
-        public async Task DispatchAsync<TEvent>(TEvent @event) where TEvent : IAggregateEvent
+        public async Task DispatchAsync<TEvent>(TEvent @event) where TEvent : AggregateEvent
         {
             var handlers = GetAllAssemblies()
                 .SelectMany(a => a.GetTypes())
@@ -75,7 +75,7 @@ namespace EventNet.EventStore.Subscriptions
             }
         }
 
-        private async Task HandlerRunnerAsync<TEvent>(object handler, TEvent @event) where TEvent : IAggregateEvent
+        private async Task HandlerRunnerAsync<TEvent>(object handler, TEvent @event) where TEvent : AggregateEvent
         {
             handler.GetType().InvokeMember("HandleAsync", BindingFlags.InvokeMethod, null, handler,new object[] {@event});
             await Task.CompletedTask;

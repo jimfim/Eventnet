@@ -11,7 +11,7 @@ namespace EventNet.EventStore
     public static class EventStoreExtensions
     {
         private static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.None };
-        public static EventData ToEventData(this IAggregateEvent message, IDictionary<string, object> headers)
+        public static EventData ToEventData(this AggregateEvent message, IDictionary<string, object> headers)
         {
             var data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message, SerializerSettings));
 

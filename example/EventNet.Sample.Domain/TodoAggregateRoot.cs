@@ -6,7 +6,7 @@ namespace EventNet.Sample.Domain
 {
     public class TodoAggregateRoot : AggregateRoot
     {
-
+    
         public string Name { get; private set; }
 
         public List<TodoTask> Tasks { get; private set; }
@@ -44,7 +44,7 @@ namespace EventNet.Sample.Domain
         {
         }
 
-        public TodoAggregateRoot(IEnumerable<IAggregateEvent> events) : base(events)
+        public TodoAggregateRoot(IEnumerable<AggregateEvent> events) : base(events)
         {
         }
     }

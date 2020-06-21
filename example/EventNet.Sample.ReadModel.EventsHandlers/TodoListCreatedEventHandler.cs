@@ -9,7 +9,7 @@ namespace EventNet.Sample.ReadModel.EventsHandlers
     {
         public async void HandleAsync(TodoListCreatedEvent @event)
         {
-            await Console.Out.WriteLineAsync($"event received : {@event.Id} {@event.Name}");
+            await Console.Out.WriteLineAsync($"event received : {@event.AggregateId} {@event.Name}");
         }
     }
 }

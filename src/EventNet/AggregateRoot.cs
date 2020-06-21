@@ -6,20 +6,20 @@ namespace EventNet.Core
     public abstract class AggregateRoot
     {
         private int _version;
-        private readonly List<IAggregateEvent> _uncommittedEvents = new List<IAggregateEvent>();
+        private readonly List<AggregateEvent> _uncommittedEvents = new List<AggregateEvent>();
 
         public int Version => _version;
 
         public Guid AggregateId { get; protected set; }
 
-        public List<IAggregateEvent> UncommittedEvents => _uncommittedEvents;
+        public List<AggregateEvent> UncommittedEvents => _uncommittedEvents;
         
         protected AggregateRoot(Guid id)
         {
             AggregateId = id;
         }
 
-        protected  AggregateRoot(IEnumerable<IAggregateEvent> events)
+        protected  AggregateRoot(IEnumerable<AggregateEvent> events)
         {
             foreach (var e in events)
             {
@@ -27,8 +27,9 @@ namespace EventNet.Core
             }
         }
         
-        protected void Publish(IAggregateEvent @event)
+        protected void Publish(AggregateEvent @event)
         {
+            @event.AggregateId = this.AggregateId;
             UncommittedEvents.Add(@event);
         }
         

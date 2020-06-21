@@ -2,8 +2,10 @@ using System;
 
 namespace EventNet.Core
 {
-    public interface IAggregateEvent
+    public abstract class AggregateEvent
     {
-        Guid Id { get; set; }
+        public Guid AggregateId { get; set; }
+        
+        public Guid Id { get; set; }
     }
 }

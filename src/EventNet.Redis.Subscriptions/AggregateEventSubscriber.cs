@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Reflection.Metadata.Ecma335;
 using System.Threading;
 using System.Threading.Tasks;
 using EventNet.Core;
@@ -60,7 +59,7 @@ namespace EventNet.Redis.Subscriptions
                 {
                     foreach (var streamEntryValue in streamEntry.Values)
                     {
-                        var @event = JsonConvert.DeserializeObject<IAggregateEvent>(streamEntryValue.Value.ToString(), _serializerSettings);
+                        var @event = JsonConvert.DeserializeObject<AggregateEvent>(streamEntryValue.Value.ToString(), _serializerSettings);
                         await DispatchAsync(@event);
                         await _checkPoint.SetCheckpoint<T>(streamEntry.Id);
                     }
@@ -74,7 +73,7 @@ namespace EventNet.Redis.Subscriptions
         }
 
 
-        private async Task DispatchAsync<TEvent>(TEvent @event) where TEvent : IAggregateEvent
+        private async Task DispatchAsync<TEvent>(TEvent @event) where TEvent : AggregateEvent
         {
             if (!_handlers.ContainsKey(@event.GetType().ToString()))
             {
@@ -92,7 +91,7 @@ namespace EventNet.Redis.Subscriptions
             }
         }
 
-        private async Task HandlerRunnerAsync<TEvent>(object handler, TEvent @event) where TEvent : IAggregateEvent
+        private async Task HandlerRunnerAsync<TEvent>(object handler, TEvent @event) where TEvent : AggregateEvent
         {
             handler.GetType().InvokeMember("HandleAsync", BindingFlags.InvokeMethod, null, handler,
                 new object[] {@event});

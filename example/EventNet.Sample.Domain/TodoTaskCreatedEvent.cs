@@ -3,9 +3,8 @@ using EventNet.Core;
 
 namespace EventNet.Sample.Domain
 {
-    public class TodoTaskCreatedEvent : IAggregateEvent
+    public class TodoTaskCreatedEvent : AggregateEvent
     {
-        public Guid Id { get; set; }
         public string Description { get; }
 
         public TodoTaskCreatedEvent(Guid id, string description)

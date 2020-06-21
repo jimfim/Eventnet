@@ -41,7 +41,7 @@ namespace EventNet.EventStore
         
         public async Task<TAggregate> GetAsync(Guid id)
         {
-            var events = new List<IAggregateEvent>();
+            var events = new List<AggregateEvent>();
             StreamEventsSlice currentSlice;
             long nextSliceStart = StreamPosition.Start;
             var streamName = EventStoreExtensions.GetStreamName<TAggregate>(id);
@@ -51,7 +51,7 @@ namespace EventNet.EventStore
                 currentSlice = await _connection
                     .ReadStreamEventsForwardAsync(streamName, nextSliceStart, batchSize, false);
                 nextSliceStart = currentSlice.NextEventNumber;
-                events.AddRange(currentSlice.Events.Select(x => (IAggregateEvent)x.DeserializeEvent()));
+                events.AddRange(currentSlice.Events.Select(x => (AggregateEvent)x.DeserializeEvent()));
             } while (!currentSlice.IsEndOfStream);
             var aggregate = _factory.Create<TAggregate>(events);
             return aggregate;

@@ -3,16 +3,14 @@ using EventNet.Core;
 
 namespace EventNet.Sample.Domain
 {
-    public class TodoListCreatedEvent : IAggregateEvent
+    public class TodoListCreatedEvent : AggregateEvent
     {
-        public TodoListCreatedEvent(Guid aggregateId, string name)
+        public TodoListCreatedEvent(Guid id, string name)
         {
-            Id = aggregateId;
+            Id = id;
             Name = name;
         }
         
         public string Name { get; }
-        
-        public Guid Id { get; set; }
     }
 }

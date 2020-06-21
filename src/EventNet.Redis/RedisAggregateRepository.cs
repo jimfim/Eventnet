@@ -49,7 +49,7 @@ namespace EventNet.Redis
         {
             var streamName = RedisExtensions.GetAggregateStreamName<TAggregate>(id);
             var db = _connectionMultiplexer.GetDatabase();
-            var events = new List<IAggregateEvent>();
+            var events = new List<AggregateEvent>();
             string checkpoint = "0-0";
             int batchSize = 100;
             var info = db.StreamInfo(streamName);
@@ -61,7 +61,7 @@ namespace EventNet.Redis
                 {
                     foreach (var streamEntryValue in streamEntry.Values)
                     {
-                        events.Add(JsonConvert.DeserializeObject<IAggregateEvent>(streamEntryValue.Value.ToString(), _serializerSettings));
+                        events.Add(JsonConvert.DeserializeObject<AggregateEvent>(streamEntryValue.Value.ToString(), _serializerSettings));
                         checkpoint = streamEntry.Id;
                     }
                 }

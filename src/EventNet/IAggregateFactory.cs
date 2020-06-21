@@ -14,7 +14,7 @@ namespace EventNet.Core
     {
         public TAggregate Create<TAggregate>(IEnumerable<object> events) where TAggregate : AggregateRoot
         {
-            var aggregate = (TAggregate) Activator.CreateInstance(typeof(TAggregate), events ?? new List<IAggregateEvent>());
+            var aggregate = (TAggregate) Activator.CreateInstance(typeof(TAggregate), events ?? new List<AggregateEvent>());
             return aggregate;
 
         }
