@@ -7,6 +7,6 @@ namespace EventNet.Sample.ReadModel.Repository
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public List<TodoTasksViewModel> Tasks { get; set; }
+        public Dictionary<Guid,string> Tasks { get; set; } = new Dictionary<Guid, string>();
     }
 }

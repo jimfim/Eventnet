@@ -29,7 +29,7 @@ namespace EventNet.Redis
             var checkpoint = await db.StringGetAsync(checkpointKey);
             if (!checkpoint.HasValue)
             {
-                checkpoint =  await db.StringIncrementAsync(checkpointKey);
+                return await Task.FromResult($"0-0"); 
             }
             return await Task.FromResult($"{checkpoint.ToString()}-0");   
         }
