@@ -12,7 +12,7 @@ namespace EventNet.Redis
             return $"{Constants.NameSpace}{Constants.Delimiter}{Constants.PrimaryStream}{Constants.Delimiter}{Constants.MessageIdKey}";
         }
         
-        public static string GetPrimaryStreamName()
+        public static string GetPrimaryStream()
         {
             return $"{Constants.NameSpace}{Constants.Delimiter}{Constants.PrimaryStream}";
         }
@@ -22,7 +22,7 @@ namespace EventNet.Redis
             return $"{Constants.NameSpace}{Constants.Delimiter}{typeof(TEntity)}-{Constants.CheckPoint}";
         }
 
-        public static string GetAggregateStreamName<TEntity>(Guid id)
+        public static string GetAggregateStream<TEntity>(Guid id)
         {
             return $"{Constants.NameSpace}{Constants.Delimiter}{typeof(TEntity)}{Constants.Delimiter}{id}";
         }

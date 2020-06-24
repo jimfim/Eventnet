@@ -6,6 +6,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\EventNet.Sample.Domain\EventNet.Sample.Domain.csproj" />
+      <ProjectReference Include="..\EventNet.Sample.ReadModel.Repository\EventNet.Sample.ReadModel.Repository.csproj" />
     </ItemGroup>
 
     <ItemGroup>

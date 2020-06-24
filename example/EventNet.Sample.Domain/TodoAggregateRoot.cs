@@ -39,13 +39,5 @@ namespace EventNet.Sample.Domain
             var todo = new TodoTask(@event.Id, @event.Description);
             Tasks.Add(todo);
         }
-
-        public TodoAggregateRoot(Guid id) : base(id)
-        {
-        }
-
-        public TodoAggregateRoot(IEnumerable<AggregateEvent> events) : base(events)
-        {
-        }
     }
 }

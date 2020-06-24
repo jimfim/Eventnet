@@ -36,7 +36,7 @@ namespace EventNet.EventStore
             };
             var eventsToSave = events.Select(e => e.ToEventData(commitHeaders)).ToList();
             await _connection.AppendToStreamAsync(streamName, expectedVersion, eventsToSave);
-            aggregate.MarkEventsCompleted();
+            aggregate.MarkChangesAsCommitted();
         }
         
         public async Task<TAggregate> GetAsync(Guid id)

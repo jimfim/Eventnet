@@ -28,7 +28,7 @@ namespace EventNet.Sample.EventStore.Command
             IAggregateFactory factory = new AggregateFactory();
             
             var aggregateId = Guid.NewGuid();
-            var agg = factory.Create<TodoAggregateRoot>(aggregateId);
+            var agg = factory.Create<TodoAggregateRoot>();
             
             agg.Create(aggregateId, "My List");
             agg.AddTask(Guid.NewGuid(), "get 1 egg");

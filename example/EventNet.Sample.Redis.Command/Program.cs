@@ -21,7 +21,7 @@ namespace EventNet.Sample.Redis.Command
                 Console.WriteLine("Press enter to create stuff");
                 Console.ReadLine();
                 var aggregateId = Guid.NewGuid();
-                var agg = factory.Create<TodoAggregateRoot>(aggregateId);
+                var agg = factory.Create<TodoAggregateRoot>();
 
                 agg.Create(aggregateId, "My List");
 
@@ -35,7 +35,6 @@ namespace EventNet.Sample.Redis.Command
                 var aggregate = await eventStoreAggregateRepository.GetAsync(agg.AggregateId);
                 Console.WriteLine(JsonConvert.SerializeObject(aggregate, Formatting.Indented));
             }
-
         }
     }
 }
