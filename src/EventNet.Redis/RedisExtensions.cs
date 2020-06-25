@@ -9,7 +9,7 @@ namespace EventNet.Redis
         
         public static string GetStreamIdKey()
         {
-            return $"{Constants.NameSpace}{Constants.Delimiter}{Constants.PrimaryStream}{Constants.Delimiter}{Constants.MessageIdKey}";
+            return $"{Constants.NameSpace}{Constants.Delimiter}{Constants.PrimaryStream}-{Constants.MessageIdKey}";
         }
         
         public static string GetPrimaryStream()

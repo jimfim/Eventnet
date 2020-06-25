@@ -4,6 +4,6 @@ namespace EventNet.Redis
     {
         public int BatchSize { get; set; } = 100;
         public int Delay { get; set; } = 100;
-        public bool ProjectionsEnabled { get; set; } = false;
+        public bool ProjectionsEnabled { get; set; } = true;
     }
 }

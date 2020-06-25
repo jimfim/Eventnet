@@ -14,6 +14,7 @@ namespace EventNet.Sample.Domain
         public void Create(Guid id, string name)
         {
             if (Version > 0) throw new InvalidOperationException("Cannot start a list more than once.");
+            AggregateId = id;
             var @event = new TodoListCreatedEvent(id, name);
             Publish(@event);
         }
