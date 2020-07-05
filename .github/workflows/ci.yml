@@ -72,3 +72,5 @@ jobs:
       run: dotnet restore .
     - name: Build
       run: dotnet build -p:version=${{ steps.gitversion.outputs.semVer }} --configuration Release --no-restore .
+    - name: push
+      run: dotnet nuget push "src/EventNet.Redis.Subscriptions/bin/Release/EventNet.Redis.Subscriptions.${{ steps.gitversion.outputs.semVer }}.nupkg" --source "github" 
