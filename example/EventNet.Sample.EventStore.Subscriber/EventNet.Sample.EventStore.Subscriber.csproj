@@ -13,7 +13,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\EventNet.Redis.Subscriptions\EventNet.Redis.Subscriptions.csproj" />
       <ProjectReference Include="..\..\src\EventNet.EventStore.Subscriptions\EventNet.EventStore.Subscriptions.csproj" />
       <ProjectReference Include="..\EventNet.Sample.Domain\EventNet.Sample.Domain.csproj" />
       <ProjectReference Include="..\EventNet.Sample.ReadModel.EventsHandlers\EventNet.Sample.ReadModel.EventsHandlers.csproj" />

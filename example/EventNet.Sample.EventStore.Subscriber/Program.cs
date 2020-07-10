@@ -16,7 +16,7 @@ namespace EventNet.Sample.ReadModelSubscriber
             return Host.CreateDefaultBuilder(args)
                 .ConfigureServices(services =>
                 {
-                    services.AddHostedService<EventNet.EventStore.Subscriptions.AggregateEventSubscriber<TodoAggregateRoot>>();
+                    services.AddHostedService<AggregateEventSubscriber<TodoAggregateRoot>>();
                 });
         }
     }
