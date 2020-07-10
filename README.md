@@ -1,1 +1,3 @@
-# Eventnet
+# Eventet
+
+EventNet manages the aggregate lifecycle and also abstracts different storage implementations when using event sourcing as storage mechanism 
