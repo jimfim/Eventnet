@@ -4,6 +4,7 @@
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <AssemblyName>EventNet.EventStore.Subscriptions</AssemblyName>
         <RootNamespace>EventNet.EventStore.Subscriptions</RootNamespace>
+        <RepositoryUrl>https://github.com/jimfim/EventNet</RepositoryUrl>
     </PropertyGroup>
 
     <ItemGroup>
