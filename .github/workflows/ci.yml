@@ -74,7 +74,7 @@ jobs:
         dotnet tool install --global dotnet-sonarscanner 
         dotnet restore .
         
-    - name: Build
+    - name: SonarScan
       env:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
       run: |
