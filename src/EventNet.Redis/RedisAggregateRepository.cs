@@ -33,18 +33,23 @@ namespace EventNet.Redis
                 return;
             }
 
-            var primaryStream = RedisExtensions.GetPrimaryStream();
-            var aggregateStreamName = RedisExtensions.GetAggregateStream<TAggregate>(aggregate.AggregateId);
+            var primaryStream = StreamNameExtensions.GetPrimaryStream();
+            var streamData = StreamNameExtensions.GetStreamData();
+            var aggregateStreamName = StreamNameExtensions.GetAggregateStream<TAggregate>(aggregate.AggregateId);
             foreach (var @event in events)
             {
-                var key = await db.StringIncrementAsync(RedisExtensions.GetStreamIdKey());
+                var key = await db.StringIncrementAsync(StreamNameExtensions.GetStreamIdKey());
                 var messageId = $"{key}-0";
                 var data = @event.ToJson();
                 if (_configuration.ProjectionsEnabled)
                 {
-                    var primaryStreamTask = db.StreamAddAsync(primaryStream, aggregate.AggregateId.ToString(), data, messageId);
-                    var aggregateStreamTask = db.StreamAddAsync(aggregateStreamName, aggregate.AggregateId.ToString(), data, messageId);
-                    await Task.WhenAll(primaryStreamTask, aggregateStreamTask);
+                    var tran = db.CreateTransaction();
+                    //tran.StringSetAsync($"{streamData}:{messageId}", data);
+                    // todo: change to message Id
+                    tran.StreamAddAsync(primaryStream, aggregate.AggregateId.ToString(),data, messageId);
+                    tran.StreamAddAsync(aggregateStreamName, aggregate.AggregateId.ToString(), data, messageId);
+                    
+                    bool committed = await tran.ExecuteAsync();
                 }
                 else
                 {
@@ -56,7 +61,7 @@ namespace EventNet.Redis
 
         public async Task<TAggregate> GetAsync(Guid id)
         {
-            var streamName = RedisExtensions.GetAggregateStream<TAggregate>(id);
+            var streamName = StreamNameExtensions.GetAggregateStream<TAggregate>(id);
             var db = _connectionMultiplexer.GetDatabase();
             var events = new List<AggregateEvent>();
             var checkpoint = "0-0";
@@ -65,6 +70,7 @@ namespace EventNet.Redis
             
             do
             {
+                //db.scr
                 var currentSlice = await db.StreamReadAsync(streamName, checkpoint, batchSize);
                 foreach (var streamEntry in currentSlice)
                 {
