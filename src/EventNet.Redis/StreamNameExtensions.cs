@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace EventNet.Redis
 {
-    public static class RedisExtensions
+    public static class StreamNameExtensions
     {
         private static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.None };
         
@@ -15,6 +15,11 @@ namespace EventNet.Redis
         public static string GetPrimaryStream()
         {
             return $"{Constants.NameSpace}{Constants.Delimiter}{Constants.PrimaryStream}";
+        }
+
+        public static string GetStreamData()
+        {
+            return $"{Constants.NameSpace}{Constants.Delimiter}{Constants.StreamData}";
         }
         
         public static string GetAggregateStreamCheckpoint<TEntity>()

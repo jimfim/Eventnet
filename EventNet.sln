@@ -33,6 +33,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventNet.Sample.Redis.Comma
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventNet.Sample.ReadModel.Repository", "example\EventNet.Sample.ReadModel.Repository\EventNet.Sample.ReadModel.Repository.csproj", "{13B95E40-C59E-4178-8B96-C3FB287A225C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{4FB8D2A3-057C-4484-98E5-859BB8476CE8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventNet.UnitTests", "tests\EventNet.UnitTests\EventNet.UnitTests.csproj", "{87B450B8-FD75-41DB-9A47-1BD95D0216C8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +91,10 @@ Global
 		{13B95E40-C59E-4178-8B96-C3FB287A225C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13B95E40-C59E-4178-8B96-C3FB287A225C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13B95E40-C59E-4178-8B96-C3FB287A225C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87B450B8-FD75-41DB-9A47-1BD95D0216C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87B450B8-FD75-41DB-9A47-1BD95D0216C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87B450B8-FD75-41DB-9A47-1BD95D0216C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87B450B8-FD75-41DB-9A47-1BD95D0216C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -101,6 +109,7 @@ Global
 		{E555870A-D06D-4F8D-AE8A-0FC3A26FB899} = {A34C83D5-498E-447B-94F3-1E0E6D554740}
 		{5D6E874E-E13B-4976-BB60-C1164B014CEC} = {A34C83D5-498E-447B-94F3-1E0E6D554740}
 		{13B95E40-C59E-4178-8B96-C3FB287A225C} = {A843FC6D-11C8-4413-8AE8-759E89B32E3E}
+		{87B450B8-FD75-41DB-9A47-1BD95D0216C8} = {4FB8D2A3-057C-4484-98E5-859BB8476CE8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28C992AB-23DA-45B9-BB2A-24BA7E5BA38F}

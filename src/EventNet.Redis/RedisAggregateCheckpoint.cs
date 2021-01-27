@@ -18,20 +18,20 @@ namespace EventNet.Redis
         {
             var id = checkpoint.Split("-").First();
             var db = _connectionMultiplexer.GetDatabase();
-            var checkpointKey = RedisExtensions.GetAggregateStreamCheckpoint<TEntity>();
+            var checkpointKey = StreamNameExtensions.GetAggregateStreamCheckpoint<TEntity>();
             await db.StringSetAsync(checkpointKey, $"{id}");
         }
 
-        public async Task<string> GetCheckpoint<TEntity>()
+        public async Task<uint> GetCheckpoint<TEntity>()
         {
             var db = _connectionMultiplexer.GetDatabase();
-            var checkpointKey = RedisExtensions.GetAggregateStreamCheckpoint<TEntity>();
+            var checkpointKey = StreamNameExtensions.GetAggregateStreamCheckpoint<TEntity>();
             var checkpoint = await db.StringGetAsync(checkpointKey);
             if (!checkpoint.HasValue)
             {
-                return await Task.FromResult($"0-0"); 
+                return (uint) await Task.FromResult(0); 
             }
-            return await Task.FromResult($"{checkpoint.ToString()}-0");   
+            return (uint) await Task.FromResult(checkpoint);   
         }
     }
 }

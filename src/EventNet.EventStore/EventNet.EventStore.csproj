@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <RepositoryUrl>https://github.com/jimfim/EventNet</RepositoryUrl>
+    <CodeAnalysisRuleSet>../../sonarlint.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <ItemGroup>

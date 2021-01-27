@@ -6,6 +6,6 @@ namespace EventNet.Core
     {
         Task SetCheckpoint<TEntity>(string checkpoint);
 
-        Task<string> GetCheckpoint<TEntity>();
+        Task<uint> GetCheckpoint<TEntity>();
     }
 }

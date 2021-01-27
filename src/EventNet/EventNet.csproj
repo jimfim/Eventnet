@@ -5,6 +5,7 @@
       <RootNamespace>EventNet.Core</RootNamespace>
       <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
       <RepositoryUrl>https://github.com/jimfim/EventNet</RepositoryUrl>
+      <CodeAnalysisRuleSet>../../sonarlint.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
 
 </Project>

@@ -4,67 +4,47 @@ using System.Threading.Tasks;
 using EventNet.Core;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
-using StackExchange.Redis;
+using Redis.Stream.Subscriber;
 
 namespace EventNet.Redis.Subscriptions
 {
     public class AggregateEventSubscriber<T> : IHostedService
     {
         private readonly ICheckPoint _checkPoint;
-        private readonly Configuration _configuration;
-        private readonly IConnectionMultiplexer _connectionMultiplexer;
         private readonly IEventDispatcher _eventDispatcher;
+        private readonly IRedisStreamClient _redisStreamClient;
+
         private readonly JsonSerializerSettings _serializerSettings = new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.All
         };
 
-        public AggregateEventSubscriber(IConnectionMultiplexer connectionMultiplexer, IServiceProvider provider,
-            ICheckPoint checkPoint, Configuration configuration = null)
+        public AggregateEventSubscriber(IServiceProvider provider,
+            ICheckPoint checkPoint, IRedisStreamClient redisStreamClient)
         {
-            _connectionMultiplexer = connectionMultiplexer;
             _checkPoint = checkPoint;
-            _configuration = configuration ?? new Configuration();
+            _redisStreamClient = redisStreamClient;
             _eventDispatcher = new EventDispatcher(provider);
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            var streamName = RedisExtensions.GetPrimaryStream();
-            IDatabase db = _connectionMultiplexer.GetDatabase();
-            var batchSize = _configuration.BatchSize;
-
-            while (true)
-            {
-                if (cancellationToken.IsCancellationRequested)
-                {
-                    break;
-                }
-                var checkpoint = await _checkPoint.GetCheckpoint<T>();
-                var streamInfo = db.StreamInfo(streamName);
-                if (streamInfo.LastEntry.Id == checkpoint)
-                {
-                    await Task.Delay(_configuration.Delay, cancellationToken);
-                    continue;
-                }
-                
-                var currentSlice = await db.StreamReadAsync(streamName, checkpoint, batchSize);
-                
-                foreach (var streamEntry in currentSlice)
-                {
-                    foreach (var streamEntryValue in streamEntry.Values)
-                    {
-                        var @event = JsonConvert.DeserializeObject<AggregateEvent>(streamEntryValue.Value.ToString(), _serializerSettings);
-                        await _eventDispatcher.DispatchAsync(@event);
-                        await _checkPoint.SetCheckpoint<T>(streamEntry.Id);
-                    }
-                }
-            }
+            var streamName = StreamNameExtensions.GetPrimaryStream();
+            var checkpoint = await _checkPoint.GetCheckpoint<T>();
+            var entries = _redisStreamClient.ReadStreamAsync(streamName, checkpoint, cancellationToken);
+            await foreach (var entry in entries.WithCancellation(cancellationToken)) await EventAppeared(entry);
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)
         {
-            await _connectionMultiplexer.CloseAsync();
+            _redisStreamClient.Close();
+        }
+
+        private async Task EventAppeared(StreamEntry arg)
+        {
+            var @event = JsonConvert.DeserializeObject<AggregateEvent>(arg.Data, _serializerSettings);
+            await _eventDispatcher.DispatchAsync(@event);
+            await _checkPoint.SetCheckpoint<T>(arg.Id);
         }
     }
 }
